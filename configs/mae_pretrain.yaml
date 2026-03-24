@@ -1,1 +1,40 @@
 # Configuration for MAE pretraining
+seed: 1337
+
+task:
+  mode: "mae"
+  in_channels: 4
+  out_channels: 4
+
+model:
+  dim: 96
+  depth: 8
+  num_heads: 6
+  window_size: 8
+  mlp_ratio: 4.0
+  dropout: 0.0
+
+mae:
+  mask_ratio: 0.6
+
+train:
+  epochs: 50
+  batch_size: 32
+  lr: 3.0e-4
+  weight_decay: 0.05
+  warmup_steps: 2000
+  grad_clip_norm: 1.0
+  amp: true
+  log_every: 50
+  save_every: 1
+
+data:
+  dataset: "paired_folder"
+  root: "/data/unlabeled_patches"
+  split: "train"
+  # In MAE mode, we only need "hr/" or any images; loader will treat them as x
+  num_workers: 8
+
+dist:
+  enabled: true
+  backend: "nccl"
